@@ -1,0 +1,29 @@
+appName: versus-app-backend
+namespace: versus-app
+replicaCount: 1
+
+image:
+  repository: ""  # Will be set by CI/CD workflow
+  tag: ""         # Will be set by CI/CD workflow
+
+# Container configuration
+containerPort: 8080  # Django app runs on 8080
+servicePort: 80      # External service port
+
+host: versus-redhat-api-dev.312redhat.com
+ingressPath: /api
+serviceType: ClusterIP
+
+secret:
+  name: mysql-secret
+  keys:
+  - envName: MYSQL_HOST
+    secretKey: MYSQL_HOST
+  - envName: MYSQL_PORT
+    secretKey: MYSQL_PORT
+  - envName: MYSQL_DATABASE
+    secretKey: MYSQL_DATABASE
+  - envName: MYSQL_USER
+    secretKey: MYSQL_USER
+  - envName: MYSQL_PASSWORD
+    secretKey: MYSQL_PASSWORD

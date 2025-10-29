@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "{{ .Values.appName }}-deployment"
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: {{ .Values.appName }}
+    version: "0.1"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Values.appName }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.appName }}
+        version: "0.1"
+    spec:
+      containers:
+      - name: {{ .Values.appName }}
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        ports:
+        - containerPort: {{ .Values.containerPort }}
+          name: http
+        env:
+        {{- if .Values.secret.keys }}
+        {{- range .Values.secret.keys }}
+        - name: {{ .envName }}
+          valueFrom:
+            secretKeyRef:
+              name: {{ $.Values.secret.name }}
+              key: {{ .secretKey }}
+        {{- end }}
+        {{- end }}
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"

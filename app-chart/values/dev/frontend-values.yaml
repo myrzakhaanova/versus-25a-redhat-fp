@@ -1,0 +1,22 @@
+appName: versus-app-frontend
+namespace: versus-app
+replicaCount: 1
+
+image:
+  repository: ""  # Will be set by CI/CD workflow
+  tag: ""         # Will be set by CI/CD workflow
+
+# Container configuration
+containerPort: 8080  
+servicePort: 80
+
+host: versus-redhat-dev.312redhat.com
+ingressPath: /
+serviceType: ClusterIP
+
+# API URL configuration
+apiUrl: https://versus-redhat-api-dev.312redhat.com
+
+secret:
+  keys: {}
+  
